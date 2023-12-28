@@ -217,8 +217,7 @@ def GetFullArgSpec(fn):
     # In Python 2, a class that does not subclass anything, does not define
     # __init__, and has an attribute named _fields will cause Fire to think it
     # expects args for its constructor when in fact it does not.
-    fields = getattr(original_fn, '_fields', None)
-    if fields is not None:
+    if (fields := getattr(original_fn, '_fields', None)) is not None:
       return FullArgSpec(args=list(fields))
 
     # Case 3: Other known slot wrappers do not accept args.

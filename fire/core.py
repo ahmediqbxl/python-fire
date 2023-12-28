@@ -741,8 +741,7 @@ def _MakeParseFn(fn, metadata):
     if fn_spec.varkw is None and extra_kw:
       raise FireError('Unexpected kwargs present:', extra_kw)
 
-    missing_kwonly = set(required_kwonly) - set(kwargs)
-    if missing_kwonly:
+    if missing_kwonly := set(required_kwonly) - set(kwargs):
       raise FireError('Missing required flags:', missing_kwonly)
 
     # If we accept *varargs, then use all remaining arguments for *varargs.
@@ -796,8 +795,7 @@ def _ParseArgs(fn_args, fn_defaults, num_required_args, kwargs,
   # Select unnamed args.
   parsed_args = []
   for index, arg in enumerate(fn_args):
-    value = kwargs.pop(arg, None)
-    if value is not None:  # A value is specified at the command line.
+    if (value := kwargs.pop(arg, None)) is not None:  # A value is specified at the command line.
       value = _ParseValue(value, index, arg, metadata)
       parsed_args.append(value)
     else:  # No value has been explicitly specified.
@@ -979,8 +977,7 @@ def _ParseValue(value, index, arg, metadata):
   parse_fn = parser.DefaultParseValue
 
   # We check to see if any parse function from the fn metadata applies here.
-  parse_fns = metadata.get(decorators.FIRE_PARSE_FNS)
-  if parse_fns:
+  if parse_fns := metadata.get(decorators.FIRE_PARSE_FNS):
     default = parse_fns['default']
     positional = parse_fns['positional']
     named = parse_fns['named']

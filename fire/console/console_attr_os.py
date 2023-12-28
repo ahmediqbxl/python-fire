@@ -44,8 +44,7 @@ def GetTermSize():
                             _GetTermSizeEnvironment,
                             _GetTermSizeTput):
     try:
-      xy = get_terminal_size()
-      if xy:
+      if xy := get_terminal_size():
         break
     except:  # pylint: disable=bare-except
       pass
@@ -198,8 +197,7 @@ def _GetRawKeyFunctionPosix():
     old_settings = termios.tcgetattr(fd)
     try:
       tty.setraw(fd)
-      c = _GetKeyChar()
-      if c == _ANSI_CSI:
+      if (c := _GetKeyChar()) == _ANSI_CSI:
         c = _GetKeyChar()
         while True:
           if c == _ANSI_CSI:
@@ -207,8 +205,7 @@ def _GetRawKeyFunctionPosix():
           if c.isalpha():
             break
           prev_c = c
-          c = _GetKeyChar()
-          if c == '~':
+          if (c := _GetKeyChar()) == '~':
             c = prev_c
             break
         return ansi_to_key.get(c, '')

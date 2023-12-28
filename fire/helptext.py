@@ -166,8 +166,7 @@ def _DescriptionSection(component, info):
     description = _GetDescription(info)
     summary = _GetSummary(info)
   # Fall back to summary if description is not available.
-  text = description or summary or None
-  if text:
+  if text := description or summary or None:
     return ('DESCRIPTION', text)
   else:
     return None
@@ -499,11 +498,10 @@ def _CreateFlagItem(flag, docstring_info, spec, required=False,
     flag_string = '-{short_flag}, '.format(short_flag=flag[0]) + flag_string
 
   arg_type = _GetArgType(flag, spec)
-  arg_default = _GetArgDefault(flag, spec)
 
   # We need to handle the case where there is a default of None, but otherwise
   # the argument has another type.
-  if arg_default == 'None':
+  if (arg_default := _GetArgDefault(flag, spec)) == 'None':
     arg_type = 'Optional[{}]'.format(arg_type)
 
   arg_type = 'Type: {}'.format(arg_type) if arg_type else ''

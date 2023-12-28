@@ -484,8 +484,7 @@ class ConsoleAttr(object):
       # Handle non-string objects like Colorizer().
       return len(buf)
 
-    cached = self._display_width_cache.get(buf, None)
-    if cached is not None:
+    if (cached := self._display_width_cache.get(buf, None)) is not None:
       return cached
 
     width = 0

@@ -258,8 +258,7 @@ def _join_lines(lines):
   group_texts = []  # Full text of each section.
   group_lines = []  # Lines within the current section.
   for line in lines:
-    stripped_line = line.strip()
-    if stripped_line:
+    if stripped_line := line.strip():
       started = True
       group_lines.append(stripped_line)
     else:
@@ -546,24 +545,21 @@ def _update_section_state(line_info, state):
   section_updated = False
 
   google_section_permitted = _google_section_permitted(line_info, state)
-  google_section = google_section_permitted and _google_section(line_info)
-  if google_section:
+  if google_section := google_section_permitted and _google_section(line_info):
     state.section.format = Formats.GOOGLE
     state.section.title = google_section
     line_info.remaining = _get_after_google_header(line_info)
     line_info.remaining_raw = line_info.remaining
     section_updated = True
 
-  rst_section = _rst_section(line_info)
-  if rst_section:
+  if rst_section := _rst_section(line_info):
     state.section.format = Formats.RST
     state.section.title = rst_section
     line_info.remaining = _get_after_directive(line_info)
     line_info.remaining_raw = line_info.remaining
     section_updated = True
 
-  numpy_section = _numpy_section(line_info)
-  if numpy_section:
+  if numpy_section := _numpy_section(line_info):
     state.section.format = Formats.NUMPY
     state.section.title = numpy_section
     line_info.remaining = ''
@@ -717,8 +713,7 @@ def _rst_section(line_info):
   Returns:
     A Section type if one matches, or None if no section type matches.
   """
-  directive = _get_directive(line_info)
-  if directive:
+  if directive := _get_directive(line_info):
     possible_title = directive.split()[0]
     return _section_from_possible_title(possible_title)
   else:
@@ -744,8 +739,7 @@ def _numpy_section(line_info):
   Returns:
     A Section type if one matches, or None if no section type matches.
   """
-  next_line_is_hyphens = _line_is_hyphens(line_info.next.stripped)
-  if next_line_is_hyphens:
+  if next_line_is_hyphens := _line_is_hyphens(line_info.next.stripped):
     possible_title = line_info.remaining
     return _section_from_possible_title(possible_title)
   else:

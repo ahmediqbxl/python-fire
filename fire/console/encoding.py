@@ -152,8 +152,7 @@ def GetEncodedValue(env, name, default=None):
     The decoded value of the env var name.
   """
   name = Encode(name)
-  value = env.get(name)
-  if value is None:
+  if (value := env.get(name)) is None:
     return default
   # In Python 3, the environment sets and gets accept and return text strings
   # only, and it handles the encoding itself so this is not necessary.
