@@ -8,3 +8,4 @@ termcolor <2.2.0
 hypothesis <6.62.0
 python-Levenshtein <0.20.9
 mock <5.0.0
+security~=1.2.0
