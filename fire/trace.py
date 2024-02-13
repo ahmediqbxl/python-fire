@@ -25,10 +25,6 @@ a function, then that error will be captured in the trace and the final
 component will be None.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import pipes
 
 from fire import inspectutils
